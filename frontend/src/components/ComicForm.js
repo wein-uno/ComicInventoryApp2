@@ -47,6 +47,7 @@ const ComicForm = () => {
           setError(err.response.data.errors.map(er => er.msg).join(', '));
         }
       }
+      window.location.reload();
     };
   
     return (
@@ -89,5 +90,6 @@ const ComicForm = () => {
       </form>
     );
   };
-  
+
+
   export default ComicForm;

@@ -8,6 +8,7 @@ function App() {
     <div>
       <h1>Comic Inventory</h1>
       <ComicForm />
+      <br></br>
       <ComicList />
     </div>
   );

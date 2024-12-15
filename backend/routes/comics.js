@@ -1,4 +1,5 @@
 const express = require('express');
+const { body, validationResult } = require('express-validator');
 const { getComics, addComic, editComic, deleteComic, getComicById, getRandomComic } = require('../controllers/comicsController');
 const router = express.Router();
 

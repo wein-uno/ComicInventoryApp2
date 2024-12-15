@@ -6,10 +6,25 @@ const ComicForm = () => {
   const [number, setNumber] = useState('');
   const [grade, setGrade] = useState('');
   const [value, setValue] = useState('');
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(null); //null vs '' because of its type, blob
+  const [error, setError] = useState(''); //hopefully error free but this will help with getting good message
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+// basic validation for comic number - there are 1/2, lots of 0 and small number of 1,000,000
+    if (number < 0 || number > 1000001) {
+        setError('Number must be between 0 and 1,000,001.');  //returns message
+        return;
+      }
+  
+    if (value < 0 || value > 10000000) {
+        setError('Value must be between 0 and 10,000,000.'); //currently the most expensive book has been under 10million
+        return;
+      }
+  
+      setError(''); //blanks the message
+
     const formData = new FormData();
     formData.append('title', title);
     formData.append('number', number);

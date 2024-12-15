@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const multer = require('multer');
+const sanitizeHtml = require('sanitize-html');  //this will sanitze befor writing to db. 
 
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -43,17 +44,30 @@ const getComics = (req, res) => {
 // Add new comic
 const addComic = (req, res) => {
     upload(req, res, (err) => {
-        if (err) return res.status(500).send(err);
-        const { title, number, grade, value } = req.body;
+      if (err) return res.status(500).send(err);
+      
+      try {
+        // Sanitize text fields
+        const title = clean(req.body.title);
+        const grade = clean(req.body.grade);
+  
+        // Validate numeric fields
+        const number = parseNumber(req.body.number, { min: 0, max: 1000001 });
+        const value = parseValue(req.body.value, { min: 0, max: 10000000 });
+        
         const image = req.file ? req.file.buffer : null;
-
+  
         const query = 'INSERT INTO comics (title, number, grade, value, image) VALUES (?, ?, ?, ?, ?)';
         db.query(query, [title, number, grade, value, image], (err, result) => {
-            if (err) throw err;
-            res.json({ id: result.insertId });
+          if (err) throw err;
+          res.json({ id: result.insertId });
         });
+      } catch (validationError) {
+        return res.status(400).json({ error: validationError.message });
+      }
     });
-};
+  };
+  
 
 // Get comic by id
 const getComicById = (req, res) => {

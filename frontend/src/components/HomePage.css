@@ -1,0 +1,52 @@
+
+.homepage-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* 1/3 and 2/3 width */
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .left-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .button-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .button-row button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .link-row {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .link-row a {
+    font-size: 18px;
+    color: blue;
+    text-decoration: none;
+  }
+  
+  .link-row a:hover {
+    text-decoration: underline;
+  }
+  
+  .right-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .random-comic img {
+    margin-top: 10px;
+  }

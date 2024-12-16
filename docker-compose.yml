@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: comic_db
+    environment:
+      MYSQL_ROOT_PASSWORD: Test12ing
+      MYSQL_DATABASE: comic_inventory
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Test12ing
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: comic_backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: Test12ing
+      DB_NAME: comic_inventory
+      # Ensure JWT_SECRET or other environment variables are included if needed
+    ports:
+      - "5000:5000"
+    command: ["npm", "start"]
+
+  frontend:
+    build: ./frontend
+    container_name: comic_frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"

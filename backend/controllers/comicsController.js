@@ -66,7 +66,8 @@ const addComic = (req, res) => {
         return res.status(400).json({ error: validationError.message });
       }
     });
-  };
+
+};
   
 
 // Get comic by id

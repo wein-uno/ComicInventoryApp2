@@ -1,3 +1,5 @@
+
+
 services:
   db:
     image: mysql:8.0
@@ -5,7 +7,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: Test12ing
       MYSQL_DATABASE: comic_inventory
-      MYSQL_USER: root
+      MYSQL_USER: comicusers
       MYSQL_PASSWORD: Test12ing
     volumes:
       - db_data:/var/lib/mysql
@@ -26,10 +28,9 @@ services:
       - db
     environment:
       DB_HOST: db
-      DB_USER: root
+      DB_USER: comicusers
       DB_PASSWORD: Test12ing
       DB_NAME: comic_inventory
-      # Ensure JWT_SECRET or other environment variables are included if needed
     ports:
       - "5000:5000"
     command: ["npm", "start"]
@@ -42,3 +43,7 @@ services:
       - backend
     ports:
       - "3000:80"
+
+volumes:
+  db_data:
+
